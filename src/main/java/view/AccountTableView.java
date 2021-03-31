@@ -47,7 +47,7 @@ public class AccountTableView extends HttpServlet {
             //this is an example, for your other tables use getColumnNames from
             //logic to create headers in a loop.
 
-            Logic<Account> logic = LogicFactory.getFor( "AccountLogic" );
+            Logic<Account> logic = LogicFactory.getFor( "Account" );
             out.println( "<tr>" );
             logic.getColumnNames().forEach( c -> out.printf( "<th>%s</th>", c ) );
 
@@ -113,7 +113,8 @@ public class AccountTableView extends HttpServlet {
             throws ServletException, IOException {
         try {
             log( "POST" );
-            Logic<Account> logic = LogicFactory.getFor( "AccountLogic" );
+            Logic<Account> logic = LogicFactory.getFor( "Account" );
+            
             Account account = logic.updateEntity( request.getParameterMap() );
             logic.update( account );
             processRequest( request, response );

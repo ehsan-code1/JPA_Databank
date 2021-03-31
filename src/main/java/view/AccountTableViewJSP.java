@@ -38,7 +38,7 @@ public class AccountTableViewJSP extends HttpServlet {
     private List<?> extractTableData( HttpServletRequest req ) {
         try {
             String search = req.getParameter( "searchText" );
-            AccountLogic logic = LogicFactory.getFor( "AccountLogic" );
+            AccountLogic logic = LogicFactory.getFor( "Account" );
             req.setAttribute( "columnName", logic.getColumnNames() );
             req.setAttribute( "columnCode", logic.getColumnCodes() );
             List<Account> list;
@@ -87,7 +87,7 @@ public class AccountTableViewJSP extends HttpServlet {
             throws ServletException, IOException {
         try {
             log( "POST" );
-            AccountLogic logic = LogicFactory.getFor( "AccountLogic" );
+            AccountLogic logic = LogicFactory.getFor( "Account" );
             if( req.getParameter( "edit" ) != null ){
                 Account account = logic.updateEntity( req.getParameterMap() );
                 logic.update( account );

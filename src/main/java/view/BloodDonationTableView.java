@@ -38,7 +38,7 @@ public class BloodDonationTableView extends HttpServlet {
 
             out.println("<table style=\"margin-left: auto; margin-right: auto;\" border=\"1\">");
             out.println("<caption>BloodDonation</caption>");
-            Logic<BloodDonation> logic = LogicFactory.getFor("BloodDonationLogic");
+            Logic<BloodDonation> logic = LogicFactory.getFor("BloodDonation");
 
             out.println("<tr>");
 
@@ -75,7 +75,7 @@ public class BloodDonationTableView extends HttpServlet {
             throws ServletException, IOException {
         try {
             log("POST");
-            BloodDonationLogic logic = LogicFactory.getFor("BloodDonationLogic");
+            BloodDonationLogic logic = LogicFactory.getFor("BloodDonation");
             BloodDonation bd = logic.updateEntity(request.getParameterMap());
             logic.update(bd);
             processRequest(request, response);

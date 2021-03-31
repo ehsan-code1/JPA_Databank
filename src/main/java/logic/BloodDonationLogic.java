@@ -1,6 +1,7 @@
 package logic;
 
 import common.ValidationException;
+import logic.DonationRecordLogic;
 import entity.BloodDonation;
 import entity.BloodBank;
 import entity.RhesusFactor;
@@ -95,18 +96,14 @@ public class BloodDonationLogic extends GenericLogic<BloodDonation, BloodDonatio
             }
         }
 
-        String bankId = parameterMap.get(BANKID)[0];
         String milliliters = parameterMap.get(MILLILITERS)[0];
         String bloodGroup = parameterMap.get(BLOOD_GROUP)[0];
         String rhd = parameterMap.get(RHESUS_FACTOR)[0];
         String dateTime = parameterMap.get(CREATED)[0];
         
-        validator(bankId, "bloodBank ID ");
         validator(milliliters, "Milliliters ");
         validator(bloodGroup, "BloodGroup ");
         validator(rhd, "RHD ");
-
-        BloodBank bb = new BloodBank(Integer.parseInt(bankId));
 
         
         String pr = "[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1]) (2[0-3]|[01][0-9]):[0-5][0-9]:[0-5][0-9]";
@@ -131,8 +128,9 @@ public class BloodDonationLogic extends GenericLogic<BloodDonation, BloodDonatio
         entity.setBloodGroup(BloodGroup.get(bloodGroup));
 
         entity.setRhd(RhesusFactor.getRhesusFactor(rhd));
+        
 
-        entity.setBloodBank(bb);
+       // entity.setBloodBank(bb);
 
         return entity;
     }

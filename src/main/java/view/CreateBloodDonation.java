@@ -1,5 +1,6 @@
 package view;
 
+import entity.BloodBank;
 import entity.BloodDonation;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -12,6 +13,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import logic.BloodBankLogic;
 import logic.LogicFactory;
 import logic.BloodDonationLogic;
 
@@ -96,11 +98,14 @@ public class CreateBloodDonation extends HttpServlet {
             throws ServletException, IOException {
         try {
             log("POST");
-            BloodDonationLogic bLogic = LogicFactory.getFor("BloodDonationLogic");
-
+            BloodDonationLogic bDLogic = LogicFactory.getFor("BloodDonation");
+            BloodBankLogic bBLogic = LogicFactory.getFor("BloodBank");
+            
                 try {
-                    BloodDonation bD = bLogic.createEntity(request.getParameterMap());
-                    bLogic.add(bD);
+                    BloodDonation bD = bDLogic.createEntity(request.getParameterMap());
+                    BloodBank bb = bBLogic.getWithId(Integer.parseInt(request.getParameter(BloodDonationLogic.BANKID)));
+                    bD.setBloodBank(bb);
+                    bDLogic.add(bD);
                 } catch (Exception ex) {
                     errorMessage = ex.getMessage();
                 }             
@@ -111,7 +116,7 @@ public class CreateBloodDonation extends HttpServlet {
                 //if view button is pressed redirect to the appropriate table
                 response.sendRedirect("BloodDonationTable");
             }
-        } catch (Exception ex) {
+        } catch (IOException | ServletException ex) {
             Logger.getLogger(CreateBloodDonation.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

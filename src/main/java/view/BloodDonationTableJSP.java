@@ -39,7 +39,7 @@ public class BloodDonationTableJSP extends HttpServlet {
      private List<?> extractTableData( HttpServletRequest req ) {
         try {
             String search = req.getParameter( "searchText" );
-            BloodDonationLogic logic = LogicFactory.getFor( "BloodDonationLogic" );
+            BloodDonationLogic logic = LogicFactory.getFor( "BloodDonation" );
             req.setAttribute( "columnName", logic.getColumnNames() );
             req.setAttribute( "columnCode", logic.getColumnCodes() );
             List<BloodDonation> list;
@@ -87,7 +87,7 @@ public class BloodDonationTableJSP extends HttpServlet {
             throws ServletException, IOException {
         try {
             log( "POST" );
-            BloodDonationLogic logic = LogicFactory.getFor( "BloodDonationLogic" );
+            BloodDonationLogic logic = LogicFactory.getFor( "BloodDonation" );
             if( req.getParameter( "edit" ) != null ){
                 BloodDonation bd = logic.updateEntity( req.getParameterMap() );
                 logic.update( bd );

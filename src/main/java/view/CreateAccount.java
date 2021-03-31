@@ -127,7 +127,7 @@ public class CreateAccount extends HttpServlet {
             throws ServletException, IOException {
         try {
             log( "POST" );
-            AccountLogic aLogic = LogicFactory.getFor( "AccountLogic" );
+            AccountLogic aLogic = LogicFactory.getFor( "Account" );
             
             String username = request.getParameter( AccountLogic.USERNAME );
             
