@@ -17,7 +17,7 @@ import logic.PersonLogic;
 
 /**
  *
- * @author noura
+ * @author Nouran Nouh
  */
 @WebServlet(name = "CreateBloodBank", urlPatterns = {"/CreateBloodBank"})
 public class CreateBloodBank extends HttpServlet {
@@ -165,7 +165,8 @@ public class CreateBloodBank extends HttpServlet {
                     bloodBank.setPrivatelyOwned(false);
                 }
                
-                bLogic.add(bloodBank);   
+                bLogic.add(bloodBank);  
+                
                 
                // }catch(Exception e){
                     //errorMessage=e.getMessage();
