@@ -38,8 +38,8 @@ public class BloodBankDAL extends GenericDAL<BloodBank>{
     @Override
     public BloodBank findById(int id) {
         Map<String, Object> map = new HashMap<>();
-        map.put( "id", id );
-        return findResult("BloodBank.findById", map);
+        map.put( "bankId", id );
+        return findResult("BloodBank.findByBankId", map);
     }
     
     

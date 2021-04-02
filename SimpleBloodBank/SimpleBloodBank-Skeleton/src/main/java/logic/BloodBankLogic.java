@@ -86,7 +86,11 @@ public class BloodBankLogic extends GenericLogic<BloodBank,BloodBankDAL> {
 
     @Override
     public List<?> extractDataAsList(BloodBank e) {
-         return Arrays.asList(e.getId(),e.getOwner(),e.getName(),e.getPrivatelyOwned(),e.getEstablished(),e.getEmplyeeCount()); 
+        //if no id passed, return null
+        if (e.getOwner()==null)
+            return Arrays.asList(e.getId(),e.getOwner(),e.getName(),e.getPrivatelyOwned(),e.getEstablished(),e.getEmplyeeCount()); 
+       //else return id 
+        return Arrays.asList(e.getId(),e.getOwner().getId(),e.getName(),e.getPrivatelyOwned(),e.getEstablished(),e.getEmplyeeCount()); 
     }
 
     @Override
