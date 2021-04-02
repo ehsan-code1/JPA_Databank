@@ -35,7 +35,7 @@ public class BloodDonationDAL extends GenericDAL<BloodDonation> {
         Map<String, Object> map = new HashMap<>();
         map.put("milliliters", milliliters);
 
-        return findResults("BloodDonation.findByMilliliters", null);
+        return findResults("BloodDonation.findByMilliliters", map);
 
     }
 
@@ -43,7 +43,7 @@ public class BloodDonationDAL extends GenericDAL<BloodDonation> {
         Map<String, Object> map = new HashMap<>();
         map.put("bloodGroup", bloodGroup);
 
-        return findResults("BloodDonation.findByBloodGroup", null);
+        return findResults("BloodDonation.findByBloodGroup", map);
     }
         public List<BloodDonation> findContaining( String search ) {
         Map<String, Object> map = new HashMap<>();
@@ -54,19 +54,19 @@ public class BloodDonationDAL extends GenericDAL<BloodDonation> {
     public List<BloodDonation> findByRhd(RhesusFactor rhd) {
         Map<String, Object> map = new HashMap<>();
         map.put("rhd", rhd);
-        return findResults("BloodDonation.findByRhd", null);
+        return findResults("BloodDonation.findByRhd", map);
     }
 
     public List<BloodDonation> findByCreated(Date created) {
         Map<String, Object> map = new HashMap<>();
         map.put("created", created);
-        return findResults("BloodDonation.findByCreated", null);
+        return findResults("BloodDonation.findByCreated", map);
     }
 
     public List<BloodDonation> findByBloodBank(int bloodBankId) {
         Map<String, Object> map = new HashMap<>();
         map.put("bloodBankId", bloodBankId);
-        return findResults("BloodDonation.findByCreated", null);
+        return findResults("BloodDonation.findByCreated", map);
     }
 
 }

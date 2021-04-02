@@ -44,7 +44,7 @@ class AccountLogicTest {
     @BeforeEach
     final void setUp() throws Exception {
 
-        logic = LogicFactory.getFor( "AccountLogic" );
+        logic = LogicFactory.getFor( "Account" );
         /* **********************************
          * ***********IMPORTANT**************
          * **********************************/

@@ -1,10 +1,12 @@
 package view;
 
+import common.ValidationException;
 import entity.BloodBank;
 import entity.BloodDonation;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -100,15 +102,18 @@ public class CreateBloodDonation extends HttpServlet {
             log("POST");
             BloodDonationLogic bDLogic = LogicFactory.getFor("BloodDonation");
             BloodBankLogic bBLogic = LogicFactory.getFor("BloodBank");
-            
-                try {
-                    BloodDonation bD = bDLogic.createEntity(request.getParameterMap());
-                    BloodBank bb = bBLogic.getWithId(Integer.parseInt(request.getParameter(BloodDonationLogic.BANKID)));
-                    bD.setBloodBank(bb);
-                    bDLogic.add(bD);
-                } catch (Exception ex) {
-                    errorMessage = ex.getMessage();
-                }             
+
+            try {
+                BloodDonation bD = bDLogic.createEntity(request.getParameterMap());
+                BloodBank bb = bBLogic.getWithId(Integer.parseInt(request.getParameter(BloodDonationLogic.BANKID)));
+                if (bb == null) {
+                    throw new ValidationException("Foreign Constraint Fails");
+                }
+                bD.setBloodBank(bb);
+                bDLogic.add(bD);
+            } catch (NumberFormatException ex) {
+                errorMessage = ex.getMessage();
+            }
             if (request.getParameter("add") != null) {
                 //if add button is pressed return the same page
                 processRequest(request, response);

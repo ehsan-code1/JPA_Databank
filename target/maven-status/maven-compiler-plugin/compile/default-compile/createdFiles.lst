@@ -6,6 +6,7 @@ logic\BloodDonationLogic.class
 view\SampleForm.class
 view\BloodDonationTableView.class
 dal\AccountDAL.class
+dal\BloodBankDAL.class
 entity\DonationRecord.class
 entity\BloodBank.class
 logic\AccountLogic.class
@@ -19,9 +20,12 @@ dal\BloodDonationDAL.class
 entity\Person.class
 common\ServletListener.class
 entity\BloodDonation.class
+logic\BloodBankLogic.class
 entity\RhesusFactor.class
 view\AccountTableView.class
 logic\GenericLogic.class
 logic\Logic.class
+view\CreateBloodDonation.class
+view\BloodDonationTableJSP.class
 view\AccountTableViewJSP.class
 common\ValidationException.class

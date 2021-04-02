@@ -35,11 +35,11 @@ public class BloodBankDAL extends GenericDAL<BloodBank>{
      * //second parameter is map used for parameter substitution which has key of "id" and value of the id
      * @return result by id 
      */
-    @Override
+   @Override
     public BloodBank findById(int id) {
         Map<String, Object> map = new HashMap<>();
-        map.put( "id", id );
-        return findResult("BloodBank.findById", map);
+        map.put( "bankId", id );
+        return findResult("BloodBank.findByBankId", map);
     }
     
     
