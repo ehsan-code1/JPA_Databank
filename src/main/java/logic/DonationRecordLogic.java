@@ -79,7 +79,10 @@ public class DonationRecordLogic extends GenericLogic<DonationRecord,DonationRec
 
     @Override
     public List<?> extractDataAsList(DonationRecord e) {
-         return Arrays.asList( e.getId(), e.getTested(), e.getAdministrator(), e.getHospital(), e.getCreated(), e.getCreated(), e.getBloodDonation(), e.getPerson() );
+        if(e.getBloodDonation()!=null || e.getBloodDonation()!=null)
+            return Arrays.asList( e.getId(), e.getTested(), e.getAdministrator(), e.getHospital(), e.getCreated(), e.getBloodDonation().getId(), e.getPerson().getId());
+        else 
+            return Arrays.asList( e.getId(), e.getTested(), e.getAdministrator(), e.getHospital(), e.getCreated(), e.getBloodDonation(), e.getPerson());
     }
 
     @Override
@@ -137,7 +140,7 @@ System.out.print(parameterMap+"hello");
              personId= parameterMap.get( PERSON_ID )[ 0 ];
             validator.accept( personId, 45 );
             entity.setPerson(new Person(Integer.parseInt(personId)) );
-        }
+        }      
         String donationId = null;
         if( parameterMap.containsKey( DONATION_ID ) ){
              donationId= parameterMap.get( DONATION_ID )[ 0 ];
