@@ -5,11 +5,16 @@ import common.TomcatStartUp;
 import common.ValidationException;
 import entity.BloodBank;
 import entity.Person;
+import java.io.PrintStream;
+import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
+import java.util.function.Consumer;
+import java.util.function.IntFunction;
 import javax.persistence.EntityManager;
 import static logic.BloodBankLogic.EMPLOYEE_COUNT;
 import static logic.BloodBankLogic.ESTABLISHED;
@@ -78,13 +83,13 @@ public class BloodBankLogicTest {
             em.persist(person);
         }
           
-        BloodBank bloodBank= new BloodBank();
-        
+        BloodBank bloodBank = new BloodBank();
         bloodBank.setOwner(person);
         bloodBank.setName("Life Bank");
         bloodBank.setPrivatelyOwned(true);
         bloodBank.setEstablished(new Date(10000));
-        bloodBank.setEmplyeeCount(1000);
+        bloodBank.setEmplyeeCount(100);
+        
         
         //use merge to get the updated generated ID
         expectedBloodBank=em.merge(bloodBank);
@@ -212,7 +217,8 @@ public class BloodBankLogicTest {
     public void testGetBloodBankWithOwner() {
         
        BloodBank returnedBloodBank=logic.getBloodBankWithOwner(expectedBloodBank.getOwner().getId());
-        assertEquals(expectedBloodBank, returnedBloodBank);
+        System.out.println(returnedBloodBank);   
+        assertBloodBankEquals(expectedBloodBank, returnedBloodBank);
       
     }
 
@@ -222,6 +228,7 @@ public class BloodBankLogicTest {
     @Test
     public void testGetBloodBankWithEmployeeCount() {
       int found=0;
+      System.out.println(expectedBloodBank.getEmplyeeCount());
       List <BloodBank> returnedBloodBank=logic.getBloodBankWithEmployeeCount(expectedBloodBank.getEmplyeeCount());
        
       for(BloodBank b:returnedBloodBank){
@@ -279,26 +286,212 @@ public class BloodBankLogicTest {
      */
     @Test
     public void testCreateEntityAndAdd() {
-        
+ 
         Map<String, String[]> sampleMap = new HashMap<>();
-        sampleMap.put(BloodBankLogic.OWNER_ID, new String[]{"1"});
+        
+        PersonLogic personLogic=LogicFactory.getFor("Person");
+
+      
+        
+        sampleMap.put(BloodBankLogic.OWNER_ID, new String[]{expectedBloodBank.getOwner().getId().toString()});
         sampleMap.put(BloodBankLogic.NAME, new String[]{"create1"});
         sampleMap.put(BloodBankLogic.PRIVATELEY_OWNED, new String[]{"true"});
-        sampleMap.put(BloodBankLogic.ESTABLISHED, new String[]{"1995-11-11 11:11:11"});
+        sampleMap.put(BloodBankLogic.ESTABLISHED, new String[]{logic.convertDateToString(new Date())});
         sampleMap.put(BloodBankLogic.EMPLOYEE_COUNT, new String[]{"100"});
         
         BloodBank returnedBloodBank=logic.createEntity(sampleMap);
+        //set Person id
+        Person person =personLogic.getWithId(expectedBloodBank.getOwner().getId());
+        //set Owner 
+        returnedBloodBank.setOwner(person);
         logic.add(returnedBloodBank);
-        returnedBloodBank=logic.getBloodBankWithName(returnedBloodBank.getName());
-        
-        assertEquals(sampleMap.get(BloodBankLogic.OWNER_ID)[0],returnedBloodBank.getOwner());
+      
+        assertEquals(sampleMap.get(BloodBankLogic.OWNER_ID)[0],returnedBloodBank.getOwner().getId().toString());
         assertEquals(sampleMap.get(BloodBankLogic.NAME)[0],returnedBloodBank.getName());
-        assertEquals(sampleMap.get(BloodBankLogic.PRIVATELEY_OWNED)[0],returnedBloodBank.getPrivatelyOwned());
-        assertEquals(sampleMap.get(BloodBankLogic.ESTABLISHED)[0],returnedBloodBank.getEstablished());
-        assertEquals(sampleMap.get(BloodBankLogic.EMPLOYEE_COUNT)[0],returnedBloodBank.getEmplyeeCount());
+        assertEquals(sampleMap.get(BloodBankLogic.PRIVATELEY_OWNED)[0],Boolean.toString(returnedBloodBank.getPrivatelyOwned()));
+        assertEquals(sampleMap.get(BloodBankLogic.ESTABLISHED)[0],logic.convertDateToString(returnedBloodBank.getEstablished()));
+        assertEquals(sampleMap.get(BloodBankLogic.EMPLOYEE_COUNT)[0],Integer.toString(returnedBloodBank.getEmplyeeCount()));
         
         logic.delete(returnedBloodBank);
        
     }
+    
+    @Test
+    final void testCreateEntity(){
+         Map<String, String[]> sampleMap = new HashMap<>();
+         PersonLogic personLogic=LogicFactory.getFor("Person");
+         
+        sampleMap.put(BloodBankLogic.ID, new String[]{Integer.toString(expectedBloodBank.getId())});
+        sampleMap.put(BloodBankLogic.OWNER_ID, new String[]{expectedBloodBank.getOwner().getId().toString()});
+        sampleMap.put(BloodBankLogic.NAME, new String[]{expectedBloodBank.getName()});
+        sampleMap.put(BloodBankLogic.PRIVATELEY_OWNED, new String[]{Boolean.toString(expectedBloodBank.getPrivatelyOwned())});
+        sampleMap.put(BloodBankLogic.ESTABLISHED, new String[]{logic.convertDateToString(expectedBloodBank.getEstablished())});
+        sampleMap.put(BloodBankLogic.EMPLOYEE_COUNT, new String[]{Integer.toString(expectedBloodBank.getEmplyeeCount())});
+        
+        BloodBank returnedBloodBank=logic.createEntity(sampleMap);
+        Person person =personLogic.getWithId(expectedBloodBank.getOwner().getId());
+        returnedBloodBank.setOwner(person);
+        
+        assertBloodBankEquals(expectedBloodBank, returnedBloodBank);
+    }
+    
+     //edge case
+     @Test
+    final void testCreateEntityNullAndEmptyValues() {
+        Map<String, String[]> sampleMap = new HashMap<>();
+        Consumer<Map<String, String[]>> fillMap = (Map<String, String[]> map) -> {
+            map.clear();
+            sampleMap.put(BloodBankLogic.ID, new String[]{Integer.toString(expectedBloodBank.getId())});
+            sampleMap.put(BloodBankLogic.OWNER_ID, new String[]{expectedBloodBank.getOwner().getId().toString()});
+            sampleMap.put(BloodBankLogic.NAME, new String[]{expectedBloodBank.getName()});
+            sampleMap.put(BloodBankLogic.PRIVATELEY_OWNED, new String[]{Boolean.toString(expectedBloodBank.getPrivatelyOwned())});
+            sampleMap.put(BloodBankLogic.ESTABLISHED, new String[]{logic.convertDateToString(expectedBloodBank.getEstablished())});
+            sampleMap.put(BloodBankLogic.EMPLOYEE_COUNT, new String[]{Integer.toString(expectedBloodBank.getEmplyeeCount())});
+            
+            
+            
+            
+        };
+        
+        fillMap.accept(sampleMap);
+        sampleMap.replace(BloodBankLogic.ID, null);
+        assertThrows(NullPointerException.class, () -> logic.createEntity(sampleMap));
+        sampleMap.replace(BloodBankLogic.ID, new String[]{}); 
+        assertThrows(IndexOutOfBoundsException.class, () -> logic.createEntity(sampleMap));
+        
+        
+        fillMap.accept(sampleMap);
+        //Owner_id can be null
+        //sampleMap.replace(BloodBankLogic.OWNER_ID, null);
+        //assertThrows(NullPointerException.class, () -> logic.createEntity(sampleMap));
+        
+        sampleMap.replace(BloodBankLogic.OWNER_ID, new String[]{}); 
+        assertThrows(IndexOutOfBoundsException.class, () -> logic.createEntity(sampleMap));
+        
+        fillMap.accept(sampleMap);
+        sampleMap.replace(BloodBankLogic.NAME, null);
+        assertThrows(NullPointerException.class, () -> logic.createEntity(sampleMap));
+        sampleMap.replace(BloodBankLogic.NAME, new String[]{}); 
+        assertThrows(IndexOutOfBoundsException.class, () -> logic.createEntity(sampleMap));
+        
+        fillMap.accept(sampleMap);
+        //BIT can be 0 or 1 or null 
+        //sampleMap.replace(BloodBankLogic.PRIVATELEY_OWNED, null);
+       // assertThrows(NullPointerException.class, () -> logic.createEntity(sampleMap));
+        sampleMap.replace(BloodBankLogic.PRIVATELEY_OWNED, new String[]{}); 
+        assertThrows(IndexOutOfBoundsException.class, () -> logic.createEntity(sampleMap));
+        
+        fillMap.accept(sampleMap);
+        sampleMap.replace(BloodBankLogic.EMPLOYEE_COUNT, null);
+        assertThrows(NullPointerException.class, () -> logic.createEntity(sampleMap));
+        sampleMap.replace(BloodBankLogic.EMPLOYEE_COUNT, new String[]{}); 
+        assertThrows(IndexOutOfBoundsException.class, () -> logic.createEntity(sampleMap));
+        
+        
+           
+    }
+    
+    
+     @Test
+    final void testCreateEntityBadLengthValues() {
+            Map<String, String[]> sampleMap = new HashMap<>();
+            Consumer<Map<String, String[]>> fillMap = (Map<String, String[]> map) -> {
+                map.clear();
+                sampleMap.put(BloodBankLogic.ID, new String[]{Integer.toString(expectedBloodBank.getId())});
+                sampleMap.put(BloodBankLogic.OWNER_ID, new String[]{expectedBloodBank.getOwner().getId().toString()});
+                sampleMap.put(BloodBankLogic.NAME, new String[]{expectedBloodBank.getName()});
+                sampleMap.put(BloodBankLogic.PRIVATELEY_OWNED, new String[]{Boolean.toString(expectedBloodBank.getPrivatelyOwned())});
+                sampleMap.put(BloodBankLogic.ESTABLISHED, new String[]{logic.convertDateToString(expectedBloodBank.getEstablished())});
+                sampleMap.put(BloodBankLogic.EMPLOYEE_COUNT, new String[]{Integer.toString(expectedBloodBank.getEmplyeeCount())});
+
+            
+            
+            
+        };  
+            
+         IntFunction<String> generateString = (int length) -> {
+            //https://www.baeldung.com/java-random-string#java8-alphabetic
+            return new Random().ints('a', 'z' + 1).limit(length)
+                    .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+                    .toString();
+        };
+         
+        fillMap.accept(sampleMap);
+        sampleMap.replace(BloodBankLogic.ID, new String[]{""});
+        assertThrows(ValidationException.class, () -> logic.createEntity(sampleMap));
+        sampleMap.replace(BloodBankLogic.ID, new String[]{"12b"});
+        assertThrows(ValidationException.class, () -> logic.createEntity(sampleMap));
+        
+   
+    
+  
+        fillMap.accept(sampleMap);
+        sampleMap.replace(BloodBankLogic.NAME, new String[]{""});
+        assertThrows(ValidationException.class, () -> logic.createEntity(sampleMap));
+        //max is varchar(100)
+        sampleMap.replace(BloodBankLogic.NAME, new String[]{generateString.apply(200)});
+        assertThrows(ValidationException.class, () -> logic.createEntity(sampleMap));
+
+   
+
+        
+    }
+    
+    
+    @Test
+    final void testCreateEntityEdgeValues() {
+        IntFunction<String> generateString = ( int length ) -> {
+            //https://www.baeldung.com/java-random-string#java8-alphabetic
+            return new Random().ints( 'a', 'z' + 1 ).limit( length )
+                    .collect( StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append )
+                    .toString();
+        };
+        
+        PersonLogic personLogic=LogicFactory.getFor("Person");
+
+        Map<String, String[]> sampleMap = new HashMap<>();
+        sampleMap.put( BloodBankLogic.ID, new String[]{ Integer.toString( 1 ) } );
+        sampleMap.put( BloodBankLogic.NAME, new String[]{ generateString.apply( 1 ) } );
+        sampleMap.put( BloodBankLogic.OWNER_ID, new String[]{ expectedBloodBank.getOwner().getId().toString() } );
+        sampleMap.put( BloodBankLogic.PRIVATELEY_OWNED, new String[]{ "false" } );
+        sampleMap.put( BloodBankLogic.ESTABLISHED, new String[]{ logic.convertDateToString(new Date(100))} );
+        sampleMap.put( BloodBankLogic.EMPLOYEE_COUNT, new String[]{ "100" } );
+
+        //idealy every test should be in its own method
+        BloodBank returnedBloodBank = logic.createEntity( sampleMap );
+        
+        Person person =personLogic.getWithId(expectedBloodBank.getOwner().getId());
+        returnedBloodBank.setOwner(person);
+        
+        assertEquals( Integer.parseInt( sampleMap.get( BloodBankLogic.ID )[ 0 ] ), returnedBloodBank.getId() );
+        assertEquals( sampleMap.get( BloodBankLogic.OWNER_ID)[ 0 ], returnedBloodBank.getOwner().getId().toString() );
+        assertEquals( sampleMap.get( BloodBankLogic.NAME )[ 0 ], returnedBloodBank.getName() );
+        assertEquals( sampleMap.get( BloodBankLogic.PRIVATELEY_OWNED )[ 0 ], Boolean.toString(returnedBloodBank.getPrivatelyOwned()) );
+        assertEquals( sampleMap.get( BloodBankLogic.ESTABLISHED )[ 0 ], logic.convertDateToString(returnedBloodBank.getEstablished() ));
+        assertEquals( sampleMap.get( BloodBankLogic.EMPLOYEE_COUNT )[ 0 ], Integer.toString(returnedBloodBank.getEmplyeeCount()));
+        
+        //apply 100 length to name string 
+        sampleMap = new HashMap<>();
+        sampleMap.put( BloodBankLogic.ID, new String[]{ Integer.toString( 1 ) } );
+        sampleMap.put( BloodBankLogic.OWNER_ID, new String[]{ expectedBloodBank.getOwner().getId().toString() } );
+        sampleMap.put( BloodBankLogic.NAME, new String[]{ generateString.apply( 100 ) } );
+        sampleMap.put( BloodBankLogic.PRIVATELEY_OWNED, new String[]{ "false" } );
+        sampleMap.put( BloodBankLogic.ESTABLISHED, new String[]{ logic.convertDateToString(new Date(100))} );
+        sampleMap.put( BloodBankLogic.EMPLOYEE_COUNT, new String[]{ "10022" } );
+
+
+        //idealy every test should be in its own method
+        returnedBloodBank = logic.createEntity( sampleMap );
+        assertEquals( Integer.parseInt( sampleMap.get( BloodBankLogic.ID )[ 0 ] ), returnedBloodBank.getId() );
+        assertEquals( sampleMap.get( BloodBankLogic.NAME )[ 0 ], returnedBloodBank.getName() );
+        assertEquals( sampleMap.get( BloodBankLogic.PRIVATELEY_OWNED )[ 0 ], Boolean.toString(returnedBloodBank.getPrivatelyOwned()) );
+        assertEquals( sampleMap.get( BloodBankLogic.ESTABLISHED )[ 0 ], logic.convertDateToString(returnedBloodBank.getEstablished() ));
+        assertEquals( sampleMap.get( BloodBankLogic.EMPLOYEE_COUNT )[ 0 ], Integer.toString(returnedBloodBank.getEmplyeeCount()));
+    }
+
+    
+    
+    
+    
     
 }

@@ -157,7 +157,7 @@ public class BloodBankLogic extends GenericLogic<BloodBank,BloodBankDAL> {
         //DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss");  
         //check date format 
          String dateEstablished=established.replace("T", " ");
-        if ((established.matches("\\d{4}-\\d{2}-\\d{2}"))) {
+        if ((established.matches("\\d{4}-[01]\\d-[0-3]\\d\\s[0-2]\\d((:[0-5]\\d)?){2}"))) {
            
             bloodBank.setEstablished(convertStringToDate(dateEstablished));
         }else{
