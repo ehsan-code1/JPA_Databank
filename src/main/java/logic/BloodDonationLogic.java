@@ -5,6 +5,7 @@ import entity.BloodDonation;
 import entity.RhesusFactor;
 import entity.BloodGroup;
 import dal.BloodDonationDAL;
+import entity.BloodBank;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -35,11 +36,11 @@ public class BloodDonationLogic extends GenericLogic<BloodDonation, BloodDonatio
     public List<BloodDonation> getAll() {
         return get(() -> dal().findAll());
     }
-      @Override
+
+    @Override
     public BloodDonation getWithId(int id) {
         return get(() -> dal().findById(id));
     }
-
 
     @Override
     public List<String> getColumnNames() {
@@ -53,10 +54,13 @@ public class BloodDonationLogic extends GenericLogic<BloodDonation, BloodDonatio
 
     @Override
     public List<?> extractDataAsList(BloodDonation e) {
+
+        if (e.getBloodBank() == null) {
+            return Arrays.asList(e.getId(), e.getBloodBank(), e.getMilliliters(), e.getBloodGroup(), e.getRhd().getSymbol(), e.getCreated().toString());
+        }
         return Arrays.asList(e.getId(), e.getBloodBank().getId(), e.getMilliliters(), e.getBloodGroup(), e.getRhd().getSymbol(), e.getCreated().toString());
     }
 
-  
     public List<BloodDonation> getBloodDonationWithMilliliters(int milliliters) {
         return get(() -> dal().findByMilliliters(milliliters));
     }
@@ -105,14 +109,13 @@ public class BloodDonationLogic extends GenericLogic<BloodDonation, BloodDonatio
         validator(milliliters, "Milliliters ");
         validator(bloodGroup, "BloodGroup ");
         validator(rhd, "RHD ");
-
         String pr = "[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1]) (2[0-3]|[01][0-9]):[0-5][0-9]:[0-5][0-9]";
 
         if (dateTime != null && dateTime.matches(pr)) {
+            
             Date created = convertStringToDate(dateTime);
-
             entity.setCreated(created);
-
+            
         } else {
             entity.setCreated(convertStringToDate(LocalDateTime.now().toString()));
         }

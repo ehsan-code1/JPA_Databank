@@ -35,7 +35,7 @@ public class DonationRecordTableView extends HttpServlet {
             out.println( "<!DOCTYPE html>" );
             out.println( "<html>" );
             out.println( "<head>" );
-            out.println( "<title>AccountViewNormal</title>" );
+            out.println( "<title>DonationRecordViewNormal</title>" );
             out.println( "</head>" );
             out.println( "<body>" );
 
@@ -61,7 +61,7 @@ public class DonationRecordTableView extends HttpServlet {
 //                out.printf( "<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>",
 //                        logic.extractDataAsList( e ).toArray() );
 //            }
-            logic.getAll().forEach( e -> out.printf( "<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>",
+            logic.getAll().forEach( e -> out.printf( "<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>",
                     logic.extractDataAsList( e ).toArray() ) );
 
             out.println( "<tr>" );

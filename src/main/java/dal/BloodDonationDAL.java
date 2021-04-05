@@ -66,7 +66,7 @@ public class BloodDonationDAL extends GenericDAL<BloodDonation> {
     public List<BloodDonation> findByBloodBank(int bloodBankId) {
         Map<String, Object> map = new HashMap<>();
         map.put("bloodBankId", bloodBankId);
-        return findResults("BloodDonation.findByCreated", map);
+        return findResults("BloodDonation.findByBloodBank", map);
     }
 
 }

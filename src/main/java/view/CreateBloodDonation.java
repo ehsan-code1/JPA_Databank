@@ -6,7 +6,6 @@ import entity.BloodDonation;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -105,11 +104,18 @@ public class CreateBloodDonation extends HttpServlet {
 
             try {
                 BloodDonation bD = bDLogic.createEntity(request.getParameterMap());
-                BloodBank bb = bBLogic.getWithId(Integer.parseInt(request.getParameter(BloodDonationLogic.BANKID)));
-                if (bb == null) {
-                    throw new ValidationException("Foreign Constraint Fails");
+
+                if (request.getParameter(BloodDonationLogic.BANKID).isEmpty()) {
+                    bD.setBloodBank(null);
+                } else {
+                    BloodBank bb = bBLogic.getWithId(Integer.parseInt(request.getParameter(BloodDonationLogic.BANKID)));
+                    if (bb == null) {
+                        throw new ValidationException("Foreign Constraint Fails, ID = " + request.getParameter(BloodDonationLogic.BANKID)
+                                + " Does not exists in BloodBank Database");
+                    }
+                    bD.setBloodBank(bb);
                 }
-                bD.setBloodBank(bb);
+
                 bDLogic.add(bD);
             } catch (NumberFormatException ex) {
                 errorMessage = ex.getMessage();
