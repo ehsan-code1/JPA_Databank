@@ -154,8 +154,21 @@ public class CreateBloodBank extends HttpServlet {
         if(bLogic.getBloodBankWithName(name)== null){
             //try{
                 BloodBank bloodBank=bLogic.createEntity(request.getParameterMap());
-                Person person=personLogic.getWithId(Integer.parseInt(request.getParameter(BloodBankLogic.OWNER_ID)));
-                bloodBank.setOwner(person);
+                
+                //if users enters no owner_id 
+                //owner id can be null
+                String owner=request.getParameter(BloodBankLogic.OWNER_ID) ;
+                if(owner.isEmpty()){
+                    bloodBank.setOwner(null);
+                
+                } else{ 
+                    
+                    Person person=personLogic.getWithId(Integer.parseInt(owner));
+                    bloodBank.setOwner(person);
+                }  
+                   
+                
+                 
                 
                 String privatleyOwned=request.getParameter(BloodBankLogic.PRIVATELEY_OWNED);
                 if(privatleyOwned.equals("yes")){

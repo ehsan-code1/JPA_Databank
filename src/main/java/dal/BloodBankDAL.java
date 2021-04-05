@@ -65,8 +65,8 @@ public class BloodBankDAL extends GenericDAL<BloodBank>{
     
     public List<BloodBank> findByPrivatelyOwened(boolean privatelyOwned){
         Map<String, Object> map= new HashMap<>();
-        map.put("privatelyOwned", privatelyOwned);
-        return findResults("BloodBank.findByPrivatelyOwened", map);
+        map.put("privatelyOwned", privatelyOwned); //privatelyOwned
+        return findResults("BloodBank.findByPrivatelyOwned", map);
     }
     
      /**
@@ -94,8 +94,8 @@ public class BloodBankDAL extends GenericDAL<BloodBank>{
     
     public List<BloodBank> findByEmployeeCount(int employeeCount){
         Map<String, Object> map= new HashMap<>();
-        map.put("employeeCount", employeeCount);
-        return findResults("BloodBank.findByEmployeeCount", map);
+        map.put("emplyeeCount", employeeCount);
+        return findResults("BloodBank.findByEmplyeeCount", map);
     
     }
     
