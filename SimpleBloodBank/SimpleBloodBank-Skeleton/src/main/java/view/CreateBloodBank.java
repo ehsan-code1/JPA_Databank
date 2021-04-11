@@ -5,7 +5,9 @@ import entity.Person;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -147,9 +149,22 @@ public class CreateBloodBank extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+       
+        
         BloodBankLogic bLogic=LogicFactory.getFor("BloodBank");
         PersonLogic personLogic=LogicFactory.getFor("Person");
         String name=request.getParameter(BloodBankLogic.NAME);
+//        Map<String, String> errMessage = new HashMap<String, String>();
+//        
+//        if(name==null || name.isEmpty()){
+//            errMessage.put("name","Please Enter a name ")
+            
+//            request.setAttribute("errMsg", "name field cant be Empty");
+//            RequestDispatcher req=request.getRequestDispatcher("ErrorMessage.jsp");
+//            req.include(request, response);
+       // }
+        
+       // if(request.is)
         
         if(bLogic.getBloodBankWithName(name)== null){
             //try{

@@ -12,6 +12,7 @@ import java.util.Random;
 import java.util.function.Consumer;
 import java.util.function.IntFunction;
 import javax.persistence.EntityManager;
+import net.bytebuddy.implementation.bind.annotation.IgnoreForBinding;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -26,11 +27,12 @@ import org.junit.jupiter.api.Test;
  *
  * @author Shariar (Shawn) Emami
  */
+
 class AccountLogicTest {
 
     private AccountLogic logic;
     private Account expectedEntity;
-
+    
     @BeforeAll
     final static void setUpBeforeClass() throws Exception {
         TomcatStartUp.createTomcat( "/SimpleBloodBank", "common.ServletListener", "simplebloodbank-PU-test" );

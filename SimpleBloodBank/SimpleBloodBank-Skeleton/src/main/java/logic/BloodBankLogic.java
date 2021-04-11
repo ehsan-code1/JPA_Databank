@@ -39,6 +39,18 @@ public class BloodBankLogic extends GenericLogic<BloodBank,BloodBankDAL> {
     public List<BloodBank> getAll() {
            return get( () -> dal().findAll() );
     }
+    
+    /*
+    * bonus part 
+    * search by specific string 
+    * Nouran Nouh
+    */
+    
+    @Override 
+    public List<BloodBank> search( String search ){
+        return get(()->dal().findContaining(search));
+        
+    }
 
     @Override
     public BloodBank getWithId(int id) {
@@ -92,7 +104,12 @@ public class BloodBankLogic extends GenericLogic<BloodBank,BloodBankDAL> {
        //else return id 
         return Arrays.asList(e.getId(),e.getOwner().getId(),e.getName(),e.getPrivatelyOwned(),e.getEstablished(),e.getEmplyeeCount()); 
     }
-
+ 
+    /**
+     * create Entity to be added to db 
+     * @param parameterMap
+     * @return 
+     */
     @Override
     public BloodBank createEntity(Map<String, String[]>  parameterMap) {
       
@@ -167,7 +184,31 @@ public class BloodBankLogic extends GenericLogic<BloodBank,BloodBankDAL> {
         return bloodBank;
          
     }
-
+    
+    
+  
+   /**
+    * Update Entity in jsp table 
+    *@author Nouran Nouh 
+    */
+    
+//    @Override
+//    public BloodBank updateEntity( Map<String, String[]> parameterMap ){
+//          Objects.requireNonNull( parameterMap, "parameterMap cannot be null" );
+//         //intialize entity 
+//         BloodBank bloodBank= new BloodBank();
+//         
+//         
+//           if( parameterMap.containsKey( ID ) ){
+//            try {
+//                bloodBank.setId(Integer.parseInt(parameterMap.get(ID)[0]));
+//                        
+//            } catch( java.lang.NumberFormatException ex ) {
+//                throw new ValidationException( ex );
+//            }
+//        } 
+//        
+//    }
  
             
     

@@ -2,6 +2,7 @@ package logic;
 
 import common.ValidationException;
 import dal.DataAccessLayer;
+import entity.BloodBank;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -120,6 +121,7 @@ abstract class GenericLogic< E, T extends DataAccessLayer<E>> implements Logic<E
     public E updateEntity( Map<String, String[]> parameterMap ) {
 
         //getwithid(id) get the current entity from db
+         
         //check data from map against entity and udpate it
         //check if depdendecy has changed, if so update it using depedency logic
         //return updated account entity
