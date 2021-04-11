@@ -15,6 +15,7 @@ C:\Users\Ehsan\Documents\NetBeansProjects\SimpleBloodBank-Skeleton\src\main\java
 C:\Users\Ehsan\Documents\NetBeansProjects\SimpleBloodBank-Skeleton\src\main\java\entity\Account.java
 C:\Users\Ehsan\Documents\NetBeansProjects\SimpleBloodBank-Skeleton\src\main\java\common\ValidationException.java
 C:\Users\Ehsan\Documents\NetBeansProjects\SimpleBloodBank-Skeleton\src\main\java\logic\BloodBankLogic.java
+C:\Users\Ehsan\Documents\NetBeansProjects\SimpleBloodBank-Skeleton\src\main\java\view\BloodFormView.java
 C:\Users\Ehsan\Documents\NetBeansProjects\SimpleBloodBank-Skeleton\src\main\java\common\ComponentExamples.java
 C:\Users\Ehsan\Documents\NetBeansProjects\SimpleBloodBank-Skeleton\src\main\java\logic\Logic.java
 C:\Users\Ehsan\Documents\NetBeansProjects\SimpleBloodBank-Skeleton\src\main\java\view\DonationRecordTableView.java
@@ -22,6 +23,7 @@ C:\Users\Ehsan\Documents\NetBeansProjects\SimpleBloodBank-Skeleton\src\main\java
 C:\Users\Ehsan\Documents\NetBeansProjects\SimpleBloodBank-Skeleton\src\main\java\common\EMFactory.java
 C:\Users\Ehsan\Documents\NetBeansProjects\SimpleBloodBank-Skeleton\src\main\java\entity\BloodDonation.java
 C:\Users\Ehsan\Documents\NetBeansProjects\SimpleBloodBank-Skeleton\src\main\java\view\PersonTableView.java
+C:\Users\Ehsan\Documents\NetBeansProjects\SimpleBloodBank-Skeleton\src\main\java\view\CreateBloodDonationJSP.java
 C:\Users\Ehsan\Documents\NetBeansProjects\SimpleBloodBank-Skeleton\src\main\java\view\CreateDonationRecord.java
 C:\Users\Ehsan\Documents\NetBeansProjects\SimpleBloodBank-Skeleton\src\main\java\view\SampleForm.java
 C:\Users\Ehsan\Documents\NetBeansProjects\SimpleBloodBank-Skeleton\src\main\java\view\BloodDonationTableView.java

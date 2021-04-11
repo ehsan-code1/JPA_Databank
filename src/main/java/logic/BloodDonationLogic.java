@@ -112,10 +112,8 @@ public class BloodDonationLogic extends GenericLogic<BloodDonation, BloodDonatio
         String pr = "[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1]) (2[0-3]|[01][0-9]):[0-5][0-9]:[0-5][0-9]";
 
         if (dateTime != null && dateTime.matches(pr)) {
-            
             Date created = convertStringToDate(dateTime);
             entity.setCreated(created);
-            
         } else {
             entity.setCreated(convertStringToDate(LocalDateTime.now().toString()));
         }
@@ -125,7 +123,6 @@ public class BloodDonationLogic extends GenericLogic<BloodDonation, BloodDonatio
 
         entity.setRhd(RhesusFactor.getRhesusFactor(rhd));
 
-        // entity.setBloodBank(bb);
         return entity;
     }
 
@@ -133,5 +130,40 @@ public class BloodDonationLogic extends GenericLogic<BloodDonation, BloodDonatio
         if (value == null || value.trim().isEmpty()) {
             throw new ValidationException(name + "can not be null");
         }
+    }
+
+    @Override
+    public BloodDonation updateEntity(Map<String, String[]> parameterMap) {
+
+        //getwithid(id) get the current entity from db
+        BloodDonation entity = getWithId(Integer.parseInt(parameterMap.get(ID)[0]));
+
+        if (!entity.getBloodBank().getId().toString().equals(parameterMap.get(MILLILITERS)[0])) {
+            entity.setMilliliters(Integer.parseInt(parameterMap.get(MILLILITERS)[0]));
+        }
+        if (!entity.getBloodGroup().toString().equals(parameterMap.get(BLOOD_GROUP)[0])) {
+            entity.setBloodGroup(BloodGroup.get(parameterMap.get(BLOOD_GROUP)[0]));
+        }
+        if (!entity.getRhd().toString().equals(parameterMap.get(RHESUS_FACTOR))) {
+            entity.setRhd(RhesusFactor.getRhesusFactor(parameterMap.get(RHESUS_FACTOR)[0]));
+        }
+        if (!entity.getCreated().toString().equals(parameterMap.get(CREATED))) {
+            try {
+                entity.setCreated(convertStringToDate(parameterMap.get(CREATED)[0]));
+            } catch (Exception e) {
+                entity.setCreated(convertStringToDate(LocalDateTime.now().toString()));
+            }
+        }
+        BloodBankLogic bl = new BloodBankLogic();
+        if (!entity.getBloodBank().equals(bl.getWithId(Integer.parseInt(parameterMap.get(BANKID)[0])))) {
+            if (bl.getWithId(Integer.parseInt(parameterMap.get(BANKID)[0])) == null) {
+                throw new ValidationException("Foreign Key Constraint Failed");               
+            }
+            entity.setBloodBank(bl.getWithId(Integer.parseInt(parameterMap.get(BANKID)[0])));
+        }
+
+        //check data from map against entity and udpate it
+        //check if depdendecy has changed, if so update it using depedency logic
+        return entity;
     }
 }

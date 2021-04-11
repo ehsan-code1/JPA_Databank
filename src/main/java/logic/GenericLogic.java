@@ -118,11 +118,9 @@ abstract class GenericLogic< E, T extends DataAccessLayer<E>> implements Logic<E
      */
     @Override
     public E updateEntity( Map<String, String[]> parameterMap ) {
+        
+        
 
-        //getwithid(id) get the current entity from db
-        //check data from map against entity and udpate it
-        //check if depdendecy has changed, if so update it using depedency logic
-        //return updated account entity
         return createEntity( parameterMap );
     }
 
