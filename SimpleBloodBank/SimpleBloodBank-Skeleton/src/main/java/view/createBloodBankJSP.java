@@ -18,7 +18,7 @@ import logic.PersonLogic;
 
 /**
  *
- * @author noura
+ * @author Nouran Nouh
  */
 @WebServlet(name = "CreateBloodBankJSP", urlPatterns = {"/CreateBloodBankJSP"})
 public class createBloodBankJSP extends HttpServlet {
@@ -82,9 +82,10 @@ public class createBloodBankJSP extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //request.getParameter
+        //get required entity logic 
         BloodBankLogic bLogic=LogicFactory.getFor("BloodBank");
         PersonLogic personLogic=LogicFactory.getFor("Person");
+        
         String name=request.getParameter(BloodBankLogic.NAME);
         
         if(bLogic.getBloodBankWithName(name)== null){
@@ -98,16 +99,19 @@ public class createBloodBankJSP extends HttpServlet {
                     bloodBank.setOwner(null);
                 
                 } else{ 
-                    
+                    //set owner id 
                     Person person=personLogic.getWithId(Integer.parseInt(owner));
                     bloodBank.setOwner(person);
                 } 
                 
+                //get privately owned 
                  String privatleyOwned=request.getParameter(BloodBankLogic.PRIVATELY_OWNED);
+                 //if it is yes 
                 if(privatleyOwned.equals("yes")){
-                    
+                    //set it to true
                     bloodBank.setPrivatelyOwned(true);
                 }else{
+                    //set it to yes
                     bloodBank.setPrivatelyOwned(false);
                 }
                
@@ -121,7 +125,7 @@ public class createBloodBankJSP extends HttpServlet {
                 out.print("Values added :");
                 out.println(toStringMap(request.getParameterMap()));
         } else if( request.getParameter( "view" ) != null ){
-            //if view button is pressed redirect to the appropriate table
+            //if view button is pressed redirect to the appropriate table (jsp)
              response.sendRedirect( "BloodBankTableJSP" );
         }
         

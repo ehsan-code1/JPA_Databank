@@ -35,7 +35,9 @@ public class BloodBankLogic extends GenericLogic<BloodBank,BloodBankDAL> {
     }
     
     
-       @Override
+    
+    
+    @Override
     public List<BloodBank> getAll() {
            return get( () -> dal().findAll() );
     }
@@ -60,7 +62,7 @@ public class BloodBankLogic extends GenericLogic<BloodBank,BloodBankDAL> {
     /**
      *
      * @param name
-     * @return
+     * @return 
      */
     public BloodBank getBloodBankWithName(String name) {
          return get( () -> dal().findByName(name ) ); 
