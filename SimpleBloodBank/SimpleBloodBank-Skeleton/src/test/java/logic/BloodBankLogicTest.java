@@ -21,13 +21,13 @@ import static logic.BloodBankLogic.ESTABLISHED;
 import static logic.BloodBankLogic.ID;
 import static logic.BloodBankLogic.NAME;
 import static logic.BloodBankLogic.OWNER_ID;
-import static logic.BloodBankLogic.PRIVATELEY_OWNED;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import static logic.BloodBankLogic.PRIVATELY_OWNED;
 
 /**
  *
@@ -259,7 +259,7 @@ public class BloodBankLogicTest {
     @Test
     public void testGetColumnCodes() {
        List<String> list=logic.getColumnCodes();
-        assertEquals(Arrays.asList(BloodBankLogic.ID,BloodBankLogic.OWNER_ID,BloodBankLogic.NAME,BloodBankLogic.PRIVATELEY_OWNED,BloodBankLogic.ESTABLISHED,BloodBankLogic.EMPLOYEE_COUNT), list);
+        assertEquals(Arrays.asList(BloodBankLogic.ID,BloodBankLogic.OWNER_ID,BloodBankLogic.NAME,BloodBankLogic.PRIVATELY_OWNED,BloodBankLogic.ESTABLISHED,BloodBankLogic.EMPLOYEE_COUNT), list);
         
     }
 
@@ -295,7 +295,7 @@ public class BloodBankLogicTest {
         
         sampleMap.put(BloodBankLogic.OWNER_ID, new String[]{expectedBloodBank.getOwner().getId().toString()});
         sampleMap.put(BloodBankLogic.NAME, new String[]{"create1"});
-        sampleMap.put(BloodBankLogic.PRIVATELEY_OWNED, new String[]{"true"});
+        sampleMap.put(BloodBankLogic.PRIVATELY_OWNED, new String[]{"true"});
         sampleMap.put(BloodBankLogic.ESTABLISHED, new String[]{logic.convertDateToString(new Date())});
         sampleMap.put(BloodBankLogic.EMPLOYEE_COUNT, new String[]{"100"});
         
@@ -308,7 +308,7 @@ public class BloodBankLogicTest {
       
         assertEquals(sampleMap.get(BloodBankLogic.OWNER_ID)[0],returnedBloodBank.getOwner().getId().toString());
         assertEquals(sampleMap.get(BloodBankLogic.NAME)[0],returnedBloodBank.getName());
-        assertEquals(sampleMap.get(BloodBankLogic.PRIVATELEY_OWNED)[0],Boolean.toString(returnedBloodBank.getPrivatelyOwned()));
+        assertEquals(sampleMap.get(BloodBankLogic.PRIVATELY_OWNED)[0],Boolean.toString(returnedBloodBank.getPrivatelyOwned()));
         assertEquals(sampleMap.get(BloodBankLogic.ESTABLISHED)[0],logic.convertDateToString(returnedBloodBank.getEstablished()));
         assertEquals(sampleMap.get(BloodBankLogic.EMPLOYEE_COUNT)[0],Integer.toString(returnedBloodBank.getEmplyeeCount()));
         
@@ -324,7 +324,7 @@ public class BloodBankLogicTest {
         sampleMap.put(BloodBankLogic.ID, new String[]{Integer.toString(expectedBloodBank.getId())});
         sampleMap.put(BloodBankLogic.OWNER_ID, new String[]{expectedBloodBank.getOwner().getId().toString()});
         sampleMap.put(BloodBankLogic.NAME, new String[]{expectedBloodBank.getName()});
-        sampleMap.put(BloodBankLogic.PRIVATELEY_OWNED, new String[]{Boolean.toString(expectedBloodBank.getPrivatelyOwned())});
+        sampleMap.put(BloodBankLogic.PRIVATELY_OWNED, new String[]{Boolean.toString(expectedBloodBank.getPrivatelyOwned())});
         sampleMap.put(BloodBankLogic.ESTABLISHED, new String[]{logic.convertDateToString(expectedBloodBank.getEstablished())});
         sampleMap.put(BloodBankLogic.EMPLOYEE_COUNT, new String[]{Integer.toString(expectedBloodBank.getEmplyeeCount())});
         
@@ -344,7 +344,7 @@ public class BloodBankLogicTest {
             sampleMap.put(BloodBankLogic.ID, new String[]{Integer.toString(expectedBloodBank.getId())});
             sampleMap.put(BloodBankLogic.OWNER_ID, new String[]{expectedBloodBank.getOwner().getId().toString()});
             sampleMap.put(BloodBankLogic.NAME, new String[]{expectedBloodBank.getName()});
-            sampleMap.put(BloodBankLogic.PRIVATELEY_OWNED, new String[]{Boolean.toString(expectedBloodBank.getPrivatelyOwned())});
+            sampleMap.put(BloodBankLogic.PRIVATELY_OWNED, new String[]{Boolean.toString(expectedBloodBank.getPrivatelyOwned())});
             sampleMap.put(BloodBankLogic.ESTABLISHED, new String[]{logic.convertDateToString(expectedBloodBank.getEstablished())});
             sampleMap.put(BloodBankLogic.EMPLOYEE_COUNT, new String[]{Integer.toString(expectedBloodBank.getEmplyeeCount())});
             
@@ -376,9 +376,9 @@ public class BloodBankLogicTest {
         
         fillMap.accept(sampleMap);
         //BIT can be 0 or 1 or null 
-        //sampleMap.replace(BloodBankLogic.PRIVATELEY_OWNED, null);
+        //sampleMap.replace(BloodBankLogic.PRIVATELY_OWNED, null);
        // assertThrows(NullPointerException.class, () -> logic.createEntity(sampleMap));
-        sampleMap.replace(BloodBankLogic.PRIVATELEY_OWNED, new String[]{}); 
+        sampleMap.replace(BloodBankLogic.PRIVATELY_OWNED, new String[]{}); 
         assertThrows(IndexOutOfBoundsException.class, () -> logic.createEntity(sampleMap));
         
         fillMap.accept(sampleMap);
@@ -400,7 +400,7 @@ public class BloodBankLogicTest {
                 sampleMap.put(BloodBankLogic.ID, new String[]{Integer.toString(expectedBloodBank.getId())});
                 sampleMap.put(BloodBankLogic.OWNER_ID, new String[]{expectedBloodBank.getOwner().getId().toString()});
                 sampleMap.put(BloodBankLogic.NAME, new String[]{expectedBloodBank.getName()});
-                sampleMap.put(BloodBankLogic.PRIVATELEY_OWNED, new String[]{Boolean.toString(expectedBloodBank.getPrivatelyOwned())});
+                sampleMap.put(BloodBankLogic.PRIVATELY_OWNED, new String[]{Boolean.toString(expectedBloodBank.getPrivatelyOwned())});
                 sampleMap.put(BloodBankLogic.ESTABLISHED, new String[]{logic.convertDateToString(expectedBloodBank.getEstablished())});
                 sampleMap.put(BloodBankLogic.EMPLOYEE_COUNT, new String[]{Integer.toString(expectedBloodBank.getEmplyeeCount())});
 
@@ -453,7 +453,7 @@ public class BloodBankLogicTest {
         sampleMap.put( BloodBankLogic.ID, new String[]{ Integer.toString( 1 ) } );
         sampleMap.put( BloodBankLogic.NAME, new String[]{ generateString.apply( 1 ) } );
         sampleMap.put( BloodBankLogic.OWNER_ID, new String[]{ expectedBloodBank.getOwner().getId().toString() } );
-        sampleMap.put( BloodBankLogic.PRIVATELEY_OWNED, new String[]{ "false" } );
+        sampleMap.put(BloodBankLogic.PRIVATELY_OWNED, new String[]{ "false" } );
         sampleMap.put( BloodBankLogic.ESTABLISHED, new String[]{ logic.convertDateToString(new Date(100))} );
         sampleMap.put( BloodBankLogic.EMPLOYEE_COUNT, new String[]{ "100" } );
 
@@ -466,7 +466,7 @@ public class BloodBankLogicTest {
         assertEquals( Integer.parseInt( sampleMap.get( BloodBankLogic.ID )[ 0 ] ), returnedBloodBank.getId() );
         assertEquals( sampleMap.get( BloodBankLogic.OWNER_ID)[ 0 ], returnedBloodBank.getOwner().getId().toString() );
         assertEquals( sampleMap.get( BloodBankLogic.NAME )[ 0 ], returnedBloodBank.getName() );
-        assertEquals( sampleMap.get( BloodBankLogic.PRIVATELEY_OWNED )[ 0 ], Boolean.toString(returnedBloodBank.getPrivatelyOwned()) );
+        assertEquals(sampleMap.get(BloodBankLogic.PRIVATELY_OWNED )[ 0 ], Boolean.toString(returnedBloodBank.getPrivatelyOwned()) );
         assertEquals( sampleMap.get( BloodBankLogic.ESTABLISHED )[ 0 ], logic.convertDateToString(returnedBloodBank.getEstablished() ));
         assertEquals( sampleMap.get( BloodBankLogic.EMPLOYEE_COUNT )[ 0 ], Integer.toString(returnedBloodBank.getEmplyeeCount()));
         
@@ -475,7 +475,7 @@ public class BloodBankLogicTest {
         sampleMap.put( BloodBankLogic.ID, new String[]{ Integer.toString( 1 ) } );
         sampleMap.put( BloodBankLogic.OWNER_ID, new String[]{ expectedBloodBank.getOwner().getId().toString() } );
         sampleMap.put( BloodBankLogic.NAME, new String[]{ generateString.apply( 100 ) } );
-        sampleMap.put( BloodBankLogic.PRIVATELEY_OWNED, new String[]{ "false" } );
+        sampleMap.put(BloodBankLogic.PRIVATELY_OWNED, new String[]{ "false" } );
         sampleMap.put( BloodBankLogic.ESTABLISHED, new String[]{ logic.convertDateToString(new Date(100))} );
         sampleMap.put( BloodBankLogic.EMPLOYEE_COUNT, new String[]{ "10022" } );
 
@@ -484,7 +484,7 @@ public class BloodBankLogicTest {
         returnedBloodBank = logic.createEntity( sampleMap );
         assertEquals( Integer.parseInt( sampleMap.get( BloodBankLogic.ID )[ 0 ] ), returnedBloodBank.getId() );
         assertEquals( sampleMap.get( BloodBankLogic.NAME )[ 0 ], returnedBloodBank.getName() );
-        assertEquals( sampleMap.get( BloodBankLogic.PRIVATELEY_OWNED )[ 0 ], Boolean.toString(returnedBloodBank.getPrivatelyOwned()) );
+        assertEquals(sampleMap.get(BloodBankLogic.PRIVATELY_OWNED )[ 0 ], Boolean.toString(returnedBloodBank.getPrivatelyOwned()) );
         assertEquals( sampleMap.get( BloodBankLogic.ESTABLISHED )[ 0 ], logic.convertDateToString(returnedBloodBank.getEstablished() ));
         assertEquals( sampleMap.get( BloodBankLogic.EMPLOYEE_COUNT )[ 0 ], Integer.toString(returnedBloodBank.getEmplyeeCount()));
     }

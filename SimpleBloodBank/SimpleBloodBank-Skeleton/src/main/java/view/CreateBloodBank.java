@@ -81,8 +81,8 @@ public class CreateBloodBank extends HttpServlet {
             out.println( "Owner Id:<br>" );
             out.printf("<input type=\"text\" name=\"%s\" value=\"\"><br><br>",BloodBankLogic.OWNER_ID);
             out.println( "PrivatlyOwned:" );
-            out.printf( "<input type=\"radio\" name=\"%s\" value=\"yes\" checked>Yes",BloodBankLogic.PRIVATELEY_OWNED );
-            out.printf( "<input type=\"radio\" name=\"%s\" value=\"no\"> No<br><br>",BloodBankLogic.PRIVATELEY_OWNED );
+            out.printf("<input type=\"radio\" name=\"%s\" value=\"yes\" checked>Yes",BloodBankLogic.PRIVATELY_OWNED );
+            out.printf("<input type=\"radio\" name=\"%s\" value=\"no\"> No<br><br>",BloodBankLogic.PRIVATELY_OWNED );
             out.println("Employee Count:<br>");
             out.printf( "<input type=\"text\" name=\"%s\" value=\"\"><br><br>", BloodBankLogic.EMPLOYEE_COUNT );
             out.println("Date Established:<br>");
@@ -185,7 +185,7 @@ public class CreateBloodBank extends HttpServlet {
                 
                  
                 
-                String privatleyOwned=request.getParameter(BloodBankLogic.PRIVATELEY_OWNED);
+                String privatleyOwned=request.getParameter(BloodBankLogic.PRIVATELY_OWNED);
                 if(privatleyOwned.equals("yes")){
                     
                     bloodBank.setPrivatelyOwned(true);

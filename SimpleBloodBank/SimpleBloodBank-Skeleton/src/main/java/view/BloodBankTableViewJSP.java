@@ -101,7 +101,7 @@ public class BloodBankTableViewJSP extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         log( "POST" );
-        BloodBankLogic logic = LogicFactory.getFor( "BloodBankLogic" );
+        BloodBankLogic logic = LogicFactory.getFor( "BloodBank" );
         if( request.getParameter( "edit" ) != null ){
             BloodBank bloodBank = logic.updateEntity( request.getParameterMap() );
             logic.update( bloodBank );
@@ -112,6 +112,37 @@ public class BloodBankTableViewJSP extends HttpServlet {
             }
         }
         fillTableData( request, response );
+    }
+    
+    
+     /**
+     * Handles the HTTP <code>PUT</code> method.
+     *
+     * @param req servlet request
+     * @param resp servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doPut( HttpServletRequest req, HttpServletResponse resp )
+            throws ServletException, IOException {
+        log( "PUT" );
+        doPost( req, resp );
+    }
+
+    /**
+     * Handles the HTTP <code>DELETE</code> method.
+     *
+     * @param req servlet request
+     * @param resp servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doDelete( HttpServletRequest req, HttpServletResponse resp )
+            throws ServletException, IOException {
+        log( "DELETE" );
+        doPost( req, resp );
     }
     
 
