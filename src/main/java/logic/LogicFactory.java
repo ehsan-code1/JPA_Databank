@@ -2,6 +2,8 @@ package logic;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public abstract class LogicFactory {
 
@@ -12,51 +14,37 @@ public abstract class LogicFactory {
     }
 
     //TODO this code is not complete, it is just here for sake of programe working. need to be changed ocmpletely
-    public static < T> T getFor( String entityName ) {
-        
-        try{
-            return getFor( (Class <T>)Class.forName(PACKAGE+entityName+SUFFIX));
+    public static < T> T getFor(String entityName) {
+        //this casting wont be needed.
+        // Class<?> builder = Class.forName ("logic."+ entityName);
+        //     return (T) builder.getDeclaredConstructor().newInstance();
+        try {
+            return getFor((Class<T>) Class.forName(PACKAGE + entityName + SUFFIX));
+        } catch (ClassNotFoundException e) {
+            throw new IllegalArgumentException(e);
         }
-        catch(ClassNotFoundException e){
-            e.getMessage();
-        } 
-        return null;
     }
-    
-    public static <R> R getFor(Class<R> type)
-    {
-        try{
-            Constructor<R> declaredConstructor = type.getDeclaredConstructor();
-            return declaredConstructor.newInstance();
-        }
-        
-        catch(InstantiationException e)
-        {
-            e.getMessage();
-        }
-        
-        catch(IllegalAccessException e)
-        {
-            e.getMessage();
-        }
-        
-        catch(IllegalArgumentException e)
-        {
-            e.getMessage();
-        }
-        catch(InvocationTargetException e)
-        {
-            e.getMessage();
-        }
-        catch(NoSuchMethodException e)
-        {
-            e.getMessage();
-        }
-        catch(SecurityException e)
-        {
-            e.getMessage();
-        }
 
-        return null;
+    public static <R> R getFor(Class<R> form) {
+        
+        try {
+            Constructor<R> declaredConstructor = form.getDeclaredConstructor();     
+            return declaredConstructor.newInstance();       
+       }catch(InstantiationException
+               |
+               IllegalAccessException
+               |
+               IllegalArgumentException
+               |
+               InvocationTargetException 
+               |
+               NoSuchMethodException 
+               |
+               SecurityException ex){
+            throw new RuntimeException("wrong type: " + form, ex);  
+            
+        }
     }
 }
+
+
