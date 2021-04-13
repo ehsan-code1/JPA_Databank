@@ -45,10 +45,13 @@ public class CreateDonationRecord extends HttpServlet {
             out.println( "<div style=\"text-align: center;\">" );
             out.println( "<div style=\"display: inline-block; text-align: left;\">" );
             out.println( "<form method=\"post\">" );
+            out.println( "Person ID:<br>" );
+            out.printf( "<input type=\"text\" name=\"%s\" value=\"\"><br>", DonationRecordLogic.PERSON_ID );
+            out.println( "<br>" );
+            out.println( "DOnation ID:<br>" );
+            out.printf( "<input type=\"text\" name=\"%s\" value=\"\"><br>", DonationRecordLogic.DONATION_ID );
+            out.println( "<br>" );
             out.println( "Administrator:<br>" );
-            //instead of typing the name of column manualy use the static vraiable in logic
-            //use the same name as column id of the table. will use this name to get date
-            //from parameter map.
             out.printf( "<input type=\"text\" name=\"%s\" value=\"\"><br>", DonationRecordLogic.ADMINISTRATOR );
             out.println( "<br>" );
             out.println( "Hospital:<br>" );
