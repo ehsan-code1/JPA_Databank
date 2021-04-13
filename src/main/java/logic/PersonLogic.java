@@ -28,6 +28,7 @@ public class PersonLogic extends GenericLogic<Person, PersonDAL>{
   public static final String ADDRESS = "address";
   public static final String BIRTH = "birth";
   public static final String ID = "id";
+  public static final String DELETE="delte";
     
     /**
      *this class used to refer immediate parent class object and super is reference variable
@@ -92,6 +93,12 @@ public class PersonLogic extends GenericLogic<Person, PersonDAL>{
      * @param parameterMap
      * @return 
      */
+    
+    @Override
+    public List<Person> search( String search ) {
+        return get( () -> dal().findContaining( search ) );
+    }
+    
     public Person createEntity (Map <String, String[]> parameterMap){
         /**
          * requireNonNull is checking the reference object to be not null

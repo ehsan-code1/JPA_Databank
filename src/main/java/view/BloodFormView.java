@@ -36,6 +36,7 @@ public class BloodFormView extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
+            // ok thanks
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
@@ -143,6 +144,7 @@ public class BloodFormView extends HttpServlet {
     }
 
     @Override
+   
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
@@ -159,6 +161,7 @@ public class BloodFormView extends HttpServlet {
 
                 DonationRecord donationRecord = dLogic.createEntity(request.getParameterMap());
 
+                // if empty then we can leave it as null, but if we have an id for a bloodbank which doesnt exsit, throw exception
                 if (request.getParameter(BloodDonationLogic.BANKID).isEmpty()) {
                     bD.setBloodBank(null);
                 } else {
@@ -173,7 +176,7 @@ public class BloodFormView extends HttpServlet {
                 dLogic.add(donationRecord);
                 bDLogic.add(bD);
             } catch (NumberFormatException ex) {
-                errorMessage = ex.getMessage();
+                ex.printStackTrace();
             }
             if (request.getParameter("add") != null) {
                 //if add button is pressed return the same page

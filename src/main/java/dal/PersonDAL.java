@@ -38,7 +38,7 @@ public class PersonDAL extends GenericDAL<Person> {
     public Person findById(int id){
         Map<String, Object> map = new HashMap<>();
         map.put( "id", id );
-        return findResult( "Perosn.findById", map );
+        return findResult( "Person.findById", map );
     }
     /**
      * first argument is a name given to a named query defined in appropriate entity
@@ -106,4 +106,10 @@ public class PersonDAL extends GenericDAL<Person> {
         return findResults("Person.findByBirth", map);
        
     }
+        public List<Person> findContaining( String search ) {
+        Map<String, Object> map = new HashMap<>();
+        map.put( "search", search );
+        return findResults( "Person.findContaining", map );
+    }
 }
+    

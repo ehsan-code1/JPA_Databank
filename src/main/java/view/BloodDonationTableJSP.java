@@ -1,10 +1,8 @@
 package view;
 
-import common.ValidationException;
-import entity.BloodBank;
+
 import entity.BloodDonation;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -92,7 +90,7 @@ public class BloodDonationTableJSP extends HttpServlet {
         try {
             log("POST");
             BloodDonationLogic logic = LogicFactory.getFor("BloodDonation");
-            BloodBankLogic bBLogic = LogicFactory.getFor("BloodBank");
+          //  BloodBankLogic bBLogic = LogicFactory.getFor("BloodBank");
 
             if (req.getParameter("edit") != null) {
                 BloodDonation bd = logic.updateEntity(req.getParameterMap());
@@ -101,6 +99,7 @@ public class BloodDonationTableJSP extends HttpServlet {
 //                    throw new ValidationException("Illegal Input");
 //                }
 //                bd.setBloodBank(bb);
+// in the pdf, it said to add dependencies in updateentity method, so i did it there. uncommenting these and commenting bb there will work too, i think
                 logic.update(bd);
             } else if (req.getParameter("delete") != null) {
                 String[] ids = req.getParameterMap().get("deleteMark");

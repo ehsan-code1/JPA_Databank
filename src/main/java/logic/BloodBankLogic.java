@@ -22,10 +22,10 @@ public class BloodBankLogic extends GenericLogic<BloodBank,BloodBankDAL> {
     
     //define variables
     public static final String OWNER_ID="owner_id";
-    public static final String PRIVATELEY_OWNED="privateley owned";
+    public static final String PRIVATELY_OWNED="privately_owned";
     public static final String ESTABLISHED="established";
     public static final String NAME="name";
-    public static final String EMPLOYEE_COUNT="employee count";
+    public static final String EMPLOYEE_COUNT="employee_count";
     public static final String ID="id";
     
     protected BloodBankLogic(){
@@ -35,9 +35,23 @@ public class BloodBankLogic extends GenericLogic<BloodBank,BloodBankDAL> {
     }
     
     
-       @Override
+    
+    
+    @Override
     public List<BloodBank> getAll() {
            return get( () -> dal().findAll() );
+    }
+    
+    /*
+    * bonus part 
+    * search by specific string 
+    * Nouran Nouh
+    */
+    
+    @Override 
+    public List<BloodBank> search( String search ){
+        return get(()->dal().findContaining(search));
+        
     }
 
     @Override
@@ -48,7 +62,7 @@ public class BloodBankLogic extends GenericLogic<BloodBank,BloodBankDAL> {
     /**
      *
      * @param name
-     * @return
+     * @return 
      */
     public BloodBank getBloodBankWithName(String name) {
          return get( () -> dal().findByName(name ) ); 
@@ -81,7 +95,7 @@ public class BloodBankLogic extends GenericLogic<BloodBank,BloodBankDAL> {
 
     @Override
     public List getColumnCodes() {
-          return Arrays.asList(ID,OWNER_ID,NAME,PRIVATELEY_OWNED,ESTABLISHED,EMPLOYEE_COUNT);
+          return Arrays.asList(ID,OWNER_ID,NAME,PRIVATELY_OWNED,ESTABLISHED,EMPLOYEE_COUNT);
     }
 
     @Override
@@ -92,7 +106,12 @@ public class BloodBankLogic extends GenericLogic<BloodBank,BloodBankDAL> {
        //else return id 
         return Arrays.asList(e.getId(),e.getOwner().getId(),e.getName(),e.getPrivatelyOwned(),e.getEstablished(),e.getEmplyeeCount()); 
     }
-
+ 
+    /**
+     * create Entity to be added to db 
+     * @param parameterMap
+     * @return 
+     */
     @Override
     public BloodBank createEntity(Map<String, String[]>  parameterMap) {
       
@@ -127,7 +146,7 @@ public class BloodBankLogic extends GenericLogic<BloodBank,BloodBankDAL> {
         String established=parameterMap.get(ESTABLISHED)[0];
         String name=parameterMap.get(NAME)[0];
         String ownerId=parameterMap.get(OWNER_ID)[0];
-        String privateleyOwned=parameterMap.get(PRIVATELEY_OWNED)[0];
+        String privateleyOwned=parameterMap.get(PRIVATELY_OWNED)[0];
         String employeeCount=parameterMap.get(EMPLOYEE_COUNT)[0];
          
        
@@ -167,7 +186,57 @@ public class BloodBankLogic extends GenericLogic<BloodBank,BloodBankDAL> {
         return bloodBank;
          
     }
-
+    
+    
+  
+   /**
+    * Update Entity in jsp table 
+    *@author Nouran Nouh 
+    * //check data from map against entity and udpate it
+      //check if depdendecy has changed, if so update it using depedency logic
+      //return updated account entity
+    */
+    
+     @Override
+   public BloodBank updateEntity( Map<String, String[]> parameterMap ){
+          Objects.requireNonNull( parameterMap, "parameterMap cannot be null" );
+       //intialize entity 
+        BloodBank bloodBank= getWithId(Integer.parseInt(parameterMap.get(ID)[0]));
+        PersonLogic personLogic=LogicFactory.getFor("Person");
+        
+        String established=parameterMap.get(ESTABLISHED)[0];
+        String name=parameterMap.get(NAME)[0];
+        String ownerId=parameterMap.get(OWNER_ID)[0];
+        String privateleyOwned=parameterMap.get(PRIVATELY_OWNED)[0];
+        String employeeCount=parameterMap.get(EMPLOYEE_COUNT)[0];
+        
+        //get Person Id 
+        Person person=personLogic.getWithId(Integer.parseInt(ownerId));
+        try{
+            if(!parameterMap.get(ESTABLISHED)[0].equals(bloodBank.getEstablished().toString())){
+                bloodBank.setEstablished(convertStringToDate(established));
+            }
+        }catch(Exception e){
+            bloodBank.setEstablished( new Date());
+        } 
+        
+        if(!parameterMap.get(NAME)[0].equals(bloodBank.getName())){
+            bloodBank.setName(name);
+        }
+        
+        if(!parameterMap.get(OWNER_ID)[0].equals(person.getId().toString())){
+             bloodBank.setOwner(person);
+        }
+        
+        if(!parameterMap.get(PRIVATELY_OWNED)[0].equals(String.valueOf(bloodBank.getPrivatelyOwned()))){
+             bloodBank.setPrivatelyOwned(Boolean.parseBoolean(privateleyOwned));
+        }   
+        
+        if(!parameterMap.get(EMPLOYEE_COUNT)[0].equals(String.valueOf(bloodBank.getEmplyeeCount()))){
+             bloodBank.setEmplyeeCount(Integer.parseInt(employeeCount));
+        } 
+       return bloodBank; 
+     }
  
             
     

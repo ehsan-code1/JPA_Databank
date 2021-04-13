@@ -20,6 +20,13 @@ import logic.PersonLogic;
  */
 @WebServlet( name = "PersonTable", urlPatterns = { "/PersonTable" } )
 public class PersonTableView extends HttpServlet {
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException 
+     */
     protected void processRequest( HttpServletRequest request, HttpServletResponse response )
             throws ServletException, IOException {
         response.setContentType( "text/html;charset=UTF-8" );
@@ -30,13 +37,22 @@ public class PersonTableView extends HttpServlet {
             out.println( "<title>PersonViewNormal</title>" );
             out.println( "</head>" );
             out.println( "<body>" );
-
+            /**
+             * this is an example, for your other tables use getColumnNames from
+             * logic to create headers in a loop.
+             */
             out.println( "<table style=\"margin-left: auto; margin-right: auto;\" border=\"1\">" );
             out.println( "<caption>Person</caption>" );
+            /**
+             * PersonLogin logic = LogicFactory.getFor( "Person" );
+             */
             Logic<Person> logic = LogicFactory.getFor( "Person" );
             out.println( "<tr>" );
             logic.getColumnNames().forEach( c -> out.printf( "<th>%s</th>", c ) );
             out.println( "</tr>" );
+            /**
+             * this is get all the attributes in the database
+             */
             logic.getAll().forEach( e -> out.printf( "<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>",
                     logic.extractDataAsList( e ).toArray() ) );
 
@@ -59,12 +75,27 @@ public class PersonTableView extends HttpServlet {
         }
         return builder.toString();
     }
+    /**
+     * Handles the HTTP <code>GET</code> method.
+     * 
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException 
+     */
      @Override
     protected void doGet( HttpServletRequest request, HttpServletResponse response )
             throws ServletException, IOException {
         log( "GET" );
         processRequest( request, response );
     }
+    /**
+     * Handles the HTTP <code>POST</code> method.
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException 
+     */
     @Override
     protected void doPost( HttpServletRequest request, HttpServletResponse response )
             throws ServletException, IOException {
@@ -74,6 +105,11 @@ public class PersonTableView extends HttpServlet {
         logic.update( person );
         processRequest( request, response );
     }
+     /**
+     * Returns a short description of the servlet.
+     *
+     * @return a String containing servlet description
+     */
     @Override
     public String getServletInfo() {
         return "Sample of Person View Normal";

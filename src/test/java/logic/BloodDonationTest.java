@@ -67,7 +67,7 @@ class BloodDonationTest {
         if (bb == null) {
             //cearet object
             bb = new BloodBank();
-            bb.setName("JUNIT");
+           bb.setName("JUNITssss");
             bb.setPrivatelyOwned(true);
             bb.setEstablished(logic.convertStringToDate("1111-11-11 11:11:11"));
             bb.setEmplyeeCount(111);

@@ -5,9 +5,6 @@ import entity.BloodDonation;
 import entity.RhesusFactor;
 import entity.BloodGroup;
 import dal.BloodDonationDAL;
-import entity.BloodBank;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Date;
@@ -109,8 +106,9 @@ public class BloodDonationLogic extends GenericLogic<BloodDonation, BloodDonatio
         validator(milliliters, "Milliliters ");
         validator(bloodGroup, "BloodGroup ");
         validator(rhd, "RHD ");
+        //regex that matches format we need date in
         String pr = "[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1]) (2[0-3]|[01][0-9]):[0-5][0-9]:[0-5][0-9]";
-
+        // if its empty, or in improper format, it will use current time
         if (dateTime != null && dateTime.matches(pr)) {
             Date created = convertStringToDate(dateTime);
             entity.setCreated(created);
@@ -126,6 +124,7 @@ public class BloodDonationLogic extends GenericLogic<BloodDonation, BloodDonatio
         return entity;
     }
 
+    // There is nothing to validate except for certain attributes to not be null, so using this helper function
     public void validator(String value, String name) {
         if (value == null || value.trim().isEmpty()) {
             throw new ValidationException(name + "can not be null");
