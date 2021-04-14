@@ -14,6 +14,7 @@ import entity.BloodBank;
 import entity.BloodDonation;
 import entity.BloodGroup;
 import entity.RhesusFactor;
+import java.nio.charset.Charset;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -21,6 +22,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import javax.persistence.EntityManager;
 import org.junit.jupiter.api.*;
 
@@ -67,7 +69,11 @@ class BloodDonationTest {
         if (bb == null) {
             //cearet object
             bb = new BloodBank();
-           bb.setName("JUNITssss");
+            byte[] array = new byte[5]; // length is bounded by 7, to have a random string each time for setup
+            new Random().nextBytes(array);
+          
+            String generatedString = new String(array, Charset.forName("UTF-8"));
+            bb.setName(generatedString);
             bb.setPrivatelyOwned(true);
             bb.setEstablished(logic.convertStringToDate("1111-11-11 11:11:11"));
             bb.setEmplyeeCount(111);
@@ -376,7 +382,7 @@ class BloodDonationTest {
         sampleMap.put(BloodDonationLogic.CREATED, new String[]{"2222-1-1 11-45-666"});
 
         BloodDonation bD = logic.createEntity(sampleMap);
-        
+
         assertTrue(bD.getCreated().equals(logic.convertStringToDate(LocalDateTime.now().toString())));
 
     }
