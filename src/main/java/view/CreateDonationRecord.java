@@ -15,7 +15,7 @@ import logic.LogicFactory;
 
 /**
  *
- * @author Parnoor
+ * @author Parnoor Singh Gill
  */
 @WebServlet( name = "CreateDonationRecord", urlPatterns = { "/CreateDonationRecord" } )
 public class CreateDonationRecord extends HttpServlet {
@@ -35,7 +35,7 @@ public class CreateDonationRecord extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType( "text/html;charset=UTF-8" );
         try( PrintWriter out = response.getWriter() ) {
-            /* TODO output your page here. You may use following sample code. */
+           
             out.println( "<!DOCTYPE html>" );
             out.println( "<html>" );
             out.println( "<head>" );
@@ -87,6 +87,11 @@ public class CreateDonationRecord extends HttpServlet {
         }
     }
 
+    /**
+     * This method put html values into map 
+     * @param values
+     * @return String
+     */
     private String toStringMap( Map<String, String[]> values ) {
         StringBuilder builder = new StringBuilder();
         values.forEach( ( k, v ) -> builder.append( "Key=" ).append( k )
@@ -131,18 +136,15 @@ public class CreateDonationRecord extends HttpServlet {
             throws ServletException, IOException {
         log( "POST" );
         DonationRecordLogic aLogic = LogicFactory.getFor( "DonationRecord" );
-        //String username = request.getParameter( AccountLogic.USERNAME );
-        /*if( aLogic.getAccountWithUsername( username ) == null ){
-            try {*/
+        
+            try {
                 DonationRecord record = aLogic.createEntity( request.getParameterMap() );
                 aLogic.add( record );
-            /*} catch( Exception ex ) {
+            } catch( Exception ex ) {
                 errorMessage = ex.getMessage();
             }
-        } else {
-            //if duplicate print the error message
-            errorMessage = "Username: \"" + username + "\" already exists";
-        }*/
+         
+        
         if( request.getParameter( "add" ) != null ){
             //if add button is pressed return the same page
             processRequest( request, response );

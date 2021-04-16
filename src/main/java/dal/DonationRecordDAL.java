@@ -24,12 +24,12 @@ public class DonationRecordDAL extends GenericDAL<DonationRecord> {
     @Override
     public DonationRecord findById(int id) {
         Map<String, Object> map = new HashMap<>();
-        map.put( "id", id );
+        map.put( "recordId", id );
         //first argument is a name given to a named query defined in appropriate entity
         //second argument is map used for parameter substitution.
         //parameters are names starting with : in named queries, :[name]
         //in this case the parameter is named "id" and value for it is put in map
-        return findResult( "DonationRecord.findById", map );
+        return findResult( "DonationRecord.findByRecordId", map );
     }
     
     public List<DonationRecord> findByTested(boolean tested)
@@ -49,14 +49,14 @@ public class DonationRecordDAL extends GenericDAL<DonationRecord> {
     public List<DonationRecord> findByHospital(String username)
     {
         Map<String, Object> map = new HashMap<>();
-        map.put( "username", username);
+        map.put( "hospital", username);
         return findResults("DonationRecord.findByHospital",map);
     }
     
     public List<DonationRecord> findByCreated(Date created)
     {
         Map<String, Object> map = new HashMap<>();
-        map.put( "date", created);
+        map.put( "created", created);
         return findResults("DonationRecord.findByCreated",map);
     }
     

@@ -17,7 +17,7 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author Parnoor
+ * @author Parnoor Singh Gill
  */
 public class DonationRecordLogic extends GenericLogic<DonationRecord,DonationRecordDAL> {
     
@@ -85,15 +85,18 @@ public class DonationRecordLogic extends GenericLogic<DonationRecord,DonationRec
             return Arrays.asList( e.getId(), e.getTested(), e.getAdministrator(), e.getHospital(), e.getCreated(), e.getBloodDonation(), e.getPerson());
     }
 
+    /**
+     * This method check the values that present in map and then validate and change according to required data type and then set those values
+     * @param parameterMap
+     * @return DonationRecord
+     */
     @Override
     public DonationRecord createEntity(Map<String, String[]> parameterMap) {
-       Objects.requireNonNull( parameterMap, "parameterMap cannot be null" );
-        //same as if condition below
-//        if (parameterMap == null) {
-//            throw new NullPointerException("parameterMap cannot be null");
-//        }
+       
+        Objects.requireNonNull( parameterMap, "parameterMap cannot be null" );
+        
 
-System.out.print(parameterMap+"hello");
+        System.out.print(parameterMap+"hello");
         //create a new Entity object
         DonationRecord entity = new DonationRecord();
 
@@ -129,22 +132,20 @@ System.out.print(parameterMap+"hello");
         //converted to appropriate type. have in mind that values are
         //stored in an array of String; almost always the value is at
         //index zero unless you have used duplicated key/name somewhere.
-        /*String id = null;
-        if( parameterMap.containsKey( ID ) ){
-             id= parameterMap.get( ID )[ 0 ];
-            validator.accept( id, 45 );
-        }*/
+        
         
         String personId = null;
         if( parameterMap.containsKey( PERSON_ID ) ){
              personId= parameterMap.get( PERSON_ID )[ 0 ];
-            validator.accept( personId, 45 );
+            //validator.accept( personId, 45 );
+            if(personId!="")
             entity.setPerson(new Person(Integer.parseInt(personId)) );
         }      
         String donationId = null;
         if( parameterMap.containsKey( DONATION_ID ) ){
              donationId= parameterMap.get( DONATION_ID )[ 0 ];
-            validator.accept( donationId, 45 );
+            //validator.accept( donationId, 45 );
+            if(donationId!="")
             entity.setBloodDonation( new BloodDonation(Integer.parseInt(donationId)) );
         }
         //String personId = parameterMap.get( PERSON_ID )[ 0 ];
@@ -158,10 +159,10 @@ System.out.print(parameterMap+"hello");
         //validate the data
         //validator.accept( personId, 45 );
         //validator.accept( donationId, 45 );
-        validator.accept( tested, 45 );
-        validator.accept( hospital, 45 );
+        validator.accept( tested, 5 );
+        validator.accept( hospital, 100 );
         validator.accept( created, 45 );
-        validator.accept( adminstrator, 45 );
+        validator.accept( adminstrator, 100  );
 
         //set values on entity
         //entity.setId(Integer.parseInt(id) );
@@ -178,7 +179,7 @@ System.out.print(parameterMap+"hello");
         }
         catch(Exception e){
             Date date =new Date();
-            entity.setCreated(new Timestamp(date.getTime()));
+            entity.setCreated(date);
         }
         
         entity.setAdministrator(adminstrator);
