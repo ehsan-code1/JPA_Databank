@@ -41,26 +41,14 @@ public class DonationRecordTableView extends HttpServlet {
 
             out.println( "<table style=\"margin-left: auto; margin-right: auto;\" border=\"1\">" );
             out.println( "<caption>DonationRecord</caption>" );
-            //this is an example, for your other tables use getColumnNames from
-            //logic to create headers in a loop.
-
-//            AccountLogic logic = LogicFactory.getFor( "Account" );
+            
             Logic<DonationRecord> logic = LogicFactory.getFor( "DonationRecord" );
             out.println( "<tr>" );
             logic.getColumnNames().forEach( c -> out.printf( "<th>%s</th>", c ) );
-//            out.println( "<th>ID</th>" );
-//            out.println( "<th>Displayname</th>" );
-//            out.println( "<th>Username</th>" );
-//            out.println( "<th>Password</th>" );
+          
             out.println( "</tr>" );
 
-//            List<Account> entities = logic.getAll();
-//            for( Account e: entities ) {
-//                //for other tables replace the code bellow with
-//                //extractDataAsList in a loop to fill the data.
-//                out.printf( "<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>",
-//                        logic.extractDataAsList( e ).toArray() );
-//            }
+          
             logic.getAll().forEach( e -> out.printf( "<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>",
                     logic.extractDataAsList( e ).toArray() ) );
 
@@ -68,10 +56,7 @@ public class DonationRecordTableView extends HttpServlet {
             //this is an example, for your other tables use getColumnNames from
             //logic to create headers in a loop.
             logic.getColumnNames().forEach( c -> out.printf( "<th>%s</th>", c ) );
-//            out.println( "<th>ID</th>" );
-//            out.println( "<th>Displayname</th>" );
-//            out.println( "<th>Username</th>" );
-//            out.println( "<th>Password</th>" );
+            
             out.println( "</tr>" );
             out.println( "</table>" );
             out.printf( "<div style=\"text-align: center;\"><pre>%s</pre></div>", toStringMap( request.getParameterMap() ) );
